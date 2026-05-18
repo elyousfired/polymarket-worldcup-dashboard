@@ -24,160 +24,105 @@ import {
   HelpCircle
 } from 'lucide-react';
 
-// Extended database of World Cup 2026 Teams with historical Qatar 2022 points and current 2026 outright charts
-const EXTENDED_TEAMS_DB = {
-  FRA: {
-    name: "France", code: "FRA", flag: "🇫🇷", group: "Group I", coach: "Didier Deschamps", keyPlayer: "Kylian Mbappé", fifaRank: 2, color: "#3b82f6",
-    currentTrend: [
-      { day: 'May 4', price: 0.175 }, { day: 'May 6', price: 0.176 }, { day: 'May 8', price: 0.182 }, { day: 'May 10', price: 0.184 }, { day: 'May 12', price: 0.185 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 12.0 }, { stage: "Matchday 1", prob: 13.5 }, { stage: "Matchday 3", prob: 14.0 }, 
-      { stage: "Round of 16", prob: 16.5 }, { stage: "Quarter-Finals", prob: 25.0 }, { stage: "Semi-Finals", prob: 42.0 }, { stage: "Finals", prob: 0.0 }
-    ],
-    strategyTip: "French outright contract values are heavily backed by institutional traders. Recommending ACCUMULATION on minor price dips."
-  },
-  BRA: {
-    name: "Brazil", code: "BRA", flag: "🇧🇷", group: "Group C", coach: "Dorival Júnior", keyPlayer: "Vinícius Júnior", fifaRank: 5, color: "#eab308",
-    currentTrend: [
-      { day: 'May 4', price: 0.165 }, { day: 'May 6', price: 0.160 }, { day: 'May 8', price: 0.155 }, { day: 'May 10', price: 0.159 }, { day: 'May 12', price: 0.160 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 18.0 }, { stage: "Matchday 1", prob: 18.5 }, { stage: "Matchday 3", prob: 19.5 }, 
-      { stage: "Round of 16", prob: 22.0 }, { stage: "Quarter-Finals", prob: 0.0 }
-    ],
-    strategyTip: "Brazil's outright probability remains highly stable. The Seleção YES token represents a low-volatility anchor position."
-  },
-  ESP: {
-    name: "Spain", code: "ESP", flag: "🇪🇸", group: "Group H", coach: "Luis de la Fuente", keyPlayer: "Lamine Yamal", fifaRank: 3, color: "#ef4444",
-    currentTrend: [
-      { day: 'May 4', price: 0.120 }, { day: 'May 6', price: 0.125 }, { day: 'May 8', price: 0.128 }, { day: 'May 10', price: 0.132 }, { day: 'May 12', price: 0.138 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 10.0 }, { stage: "Matchday 1", prob: 12.0 }, { stage: "Matchday 3", prob: 11.5 }, 
-      { stage: "Round of 16", prob: 0.0 }
-    ],
-    strategyTip: "Extreme technical momentum spotted. Backing from domestic retail traders has pushed Spain YES contract up +15% this week."
-  },
-  ENG: {
-    name: "England", code: "ENG", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "Group L", coach: "Thomas Tuchel", keyPlayer: "Jude Bellingham", fifaRank: 4, color: "#94a3b8",
-    currentTrend: [
-      { day: 'May 4', price: 0.110 }, { day: 'May 6', price: 0.115 }, { day: 'May 8', price: 0.116 }, { day: 'May 10', price: 0.115 }, { day: 'May 12', price: 0.115 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 11.0 }, { stage: "Matchday 1", prob: 11.8 }, { stage: "Matchday 3", prob: 12.2 }, 
-      { stage: "Round of 16", prob: 13.5 }, { stage: "Quarter-Finals", prob: 0.0 }
-    ],
-    strategyTip: "Thomas Tuchel's tactical structural adjustments are bullish. Best suited for hedging positions against France in early knockout rounds."
-  },
-  ARG: {
-    name: "Argentina", code: "ARG", flag: "🇦🇷", group: "Group J", coach: "Lionel Scaloni", keyPlayer: "Lionel Messi", fifaRank: 1, color: "#06b6d4",
-    currentTrend: [
-      { day: 'May 4', price: 0.088 }, { day: 'May 6', price: 0.090 }, { day: 'May 8', price: 0.091 }, { day: 'May 10', price: 0.092 }, { day: 'May 12', price: 0.092 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 14.5 }, { stage: "Matchday 1", prob: 6.5 }, { stage: "Matchday 3", prob: 11.0 }, 
-      { stage: "Round of 16", prob: 13.5 }, { stage: "Quarter-Finals", prob: 22.0 }, { stage: "Semi-Finals", prob: 45.0 }, { stage: "Finals", prob: 100.0 }
-    ],
-    strategyTip: "Riding high on the legendary Qatar payout. The current valuation has a 'Messiah Premium' factored in, but solid defending makes them strong."
-  },
-  GER: {
-    name: "Germany", code: "GER", flag: "🇩🇪", group: "Group E", coach: "Julian Nagelsmann", keyPlayer: "Jamal Musiala", fifaRank: 11, color: "#475569",
-    currentTrend: [
-      { day: 'May 4', price: 0.070 }, { day: 'May 6', price: 0.072 }, { day: 'May 8', price: 0.075 }, { day: 'May 10', price: 0.075 }, { day: 'May 12', price: 0.075 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 8.5 }, { stage: "Matchday 1", prob: 5.0 }, { stage: "Matchday 3", prob: 0.0 }
-    ],
-    strategyTip: "Germany looks to redeem the early group stage exit in Qatar. Undervalued outright target for high-risk trading."
-  },
-  POR: {
-    name: "Portugal", code: "POR", flag: "🇵🇹", group: "Group K", coach: "Roberto Martínez", keyPlayer: "Cristiano Ronaldo", fifaRank: 6, color: "#10b981",
-    currentTrend: [
-      { day: 'May 4', price: 0.055 }, { day: 'May 6', price: 0.056 }, { day: 'May 8', price: 0.057 }, { day: 'May 10', price: 0.058 }, { day: 'May 12', price: 0.058 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 7.0 }, { stage: "Matchday 1", prob: 7.5 }, { stage: "Matchday 3", prob: 8.2 }, 
-      { stage: "Round of 16", prob: 10.0 }, { stage: "Quarter-Finals", prob: 0.0 }
-    ],
-    strategyTip: "Portugal's younger roster offers massive high-yield explosive upside. YES contract pays out 17x implied return."
-  },
-  NED: {
-    name: "Netherlands", code: "NED", flag: "🇳🇱", group: "Group F", coach: "Ronald Koeman", keyPlayer: "Virgil van Dijk", fifaRank: 7, color: "#f97316",
-    currentTrend: [
-      { day: 'May 4', price: 0.040 }, { day: 'May 6', price: 0.041 }, { day: 'May 8', price: 0.042 }, { day: 'May 10', price: 0.042 }, { day: 'May 12', price: 0.042 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 6.5 }, { stage: "Matchday 1", prob: 7.0 }, { stage: "Matchday 3", prob: 8.5 }, 
-      { stage: "Round of 16", prob: 11.5 }, { stage: "Quarter-Finals", prob: 14.0 }, { stage: "Semi-Finals", prob: 0.0 }
-    ],
-    strategyTip: "Highly resilient squad with proven knockout bracket history. YES shares are an excellent mid-tier speculative hold."
-  },
-  MAR: {
-    name: "Morocco", code: "MAR", flag: "🇲🇦", group: "Group C", coach: "Walid Regragui", keyPlayer: "Achraf Hakimi", fifaRank: 13, color: "#047857",
-    currentTrend: [
-      { day: 'May 4', price: 0.035 }, { day: 'May 6', price: 0.035 }, { day: 'May 8', price: 0.038 }, { day: 'May 10', price: 0.039 }, { day: 'May 12', price: 0.040 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 0.5 }, { stage: "Matchday 1", prob: 0.8 }, { stage: "Matchday 3", prob: 2.2 }, 
-      { stage: "Round of 16", prob: 5.5 }, { stage: "Quarter-Finals", prob: 12.0 }, { stage: "Semi-Finals", prob: 15.0 }, { stage: "Finals", prob: 0.0 }
-    ],
-    strategyTip: "The legendary black swan of Qatar. Active group backing makes Morocco outright tokens excellent high-yield speculative assets."
-  },
-  CRO: {
-    name: "Croatia", code: "CRO", flag: "🇭🇷", group: "Group L", coach: "Zlatko Dalić", keyPlayer: "Luka Modrić", fifaRank: 10, color: "#b91c1c",
-    currentTrend: [
-      { day: 'May 4', price: 0.030 }, { day: 'May 6', price: 0.031 }, { day: 'May 8', price: 0.032 }, { day: 'May 10', price: 0.032 }, { day: 'May 12', price: 0.033 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 2.5 }, { stage: "Matchday 1", prob: 2.4 }, { stage: "Matchday 3", prob: 4.5 }, 
-      { stage: "Round of 16", prob: 6.0 }, { stage: "Quarter-Finals", prob: 10.5 }, { stage: "Semi-Finals", prob: 0.0 }
-    ],
-    strategyTip: "Renowned tournament bracket giants. Luka Modrić's final tournament ensures steady leadership and resilient pricing."
-  },
-  BEL: {
-    name: "Belgium", code: "BEL", flag: "🇧🇪", group: "Group G", coach: "Domenico Tedesco", keyPlayer: "Kevin De Bruyne", fifaRank: 8, color: "#be123c",
-    currentTrend: [
-      { day: 'May 4', price: 0.025 }, { day: 'May 6', price: 0.026 }, { day: 'May 8', price: 0.025 }, { day: 'May 10', price: 0.026 }, { day: 'May 12', price: 0.026 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 6.8 }, { stage: "Matchday 1", prob: 7.0 }, { stage: "Matchday 3", prob: 0.0 }
-    ],
-    strategyTip: "Post-Golden Generation rebuilding phase. The market remains bearish, leading to heavily discounted outright pricing."
-  },
-  USA: {
-    name: "United States", code: "USA", flag: "🇺🇸", group: "Group D", coach: "Mauricio Pochettino", keyPlayer: "Christian Pulisic", fifaRank: 16, color: "#1d4ed8",
-    currentTrend: [
-      { day: 'May 4', price: 0.020 }, { day: 'May 6', price: 0.022 }, { day: 'May 8', price: 0.024 }, { day: 'May 10', price: 0.024 }, { day: 'May 12', price: 0.025 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 1.0 }, { stage: "Matchday 1", prob: 1.2 }, { stage: "Matchday 3", prob: 1.8 }, 
-      { stage: "Round of 16", prob: 0.0 }
-    ],
-    strategyTip: "Hosts of 2026 with Pochettino leading. Speculators are actively accumulating USA outright contracts for home-field advantage spikes."
-  },
-  JPN: {
-    name: "Japan", code: "JPN", flag: "🇯🇵", group: "Group F", coach: "Hajime Moriyasu", keyPlayer: "Kaoru Mitoma", fifaRank: 18, color: "#1e3a8a",
-    currentTrend: [
-      { day: 'May 4', price: 0.015 }, { day: 'May 6', price: 0.018 }, { day: 'May 8', price: 0.018 }, { day: 'May 10', price: 0.019 }, { day: 'May 12', price: 0.020 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 0.8 }, { stage: "Matchday 1", prob: 2.2 }, { stage: "Matchday 3", prob: 2.5 }, 
-      { stage: "Round of 16", prob: 0.0 }
-    ],
-    strategyTip: "Tactically elite team with strong team cohesion. Japan YES shares represent a highly undervalued, high-upside option."
-  },
-  MEX: {
-    name: "Mexico", code: "MEX", flag: "🇲🇽", group: "Group A", coach: "Javier Aguirre", keyPlayer: "Santiago Giménez", fifaRank: 15, color: "#047857",
-    currentTrend: [
-      { day: 'May 4', price: 0.015 }, { day: 'May 6', price: 0.015 }, { day: 'May 8', price: 0.016 }, { day: 'May 10', price: 0.017 }, { day: 'May 12', price: 0.018 }
-    ],
-    qatarTrend: [
-      { stage: "Pre-Tourney", prob: 1.2 }, { stage: "Matchday 1", prob: 1.2 }, { stage: "Matchday 3", prob: 0.0 }
-    ],
-    strategyTip: "Co-hosts of 2026 aiming for deep knockout brackets. Heavy home fan support creates explosive potential in local order volumes."
-  }
-};
+// Comprehensive database of all 48 World Cup 2026 Teams classified by groups (Group A to L)
+const ALL_48_TEAMS = [
+  // Group A
+  { name: "Mexico", code: "MEX", flag: "🇲🇽", group: "Group A", coach: "Javier Aguirre", keyPlayer: "Santiago Giménez", fifaRank: 15, color: "#047857", basePrice: 0.018, qatarTrend: [{ stage: "Pre-Tourney", prob: 1.2 }, { stage: "Matchday 1", prob: 1.2 }, { stage: "Matchday 3", prob: 0.0 }], strategyTip: "Co-hosts of 2026 aiming for deep knockout brackets. Heavy home fan support creates explosive potential in local order volumes." },
+  { name: "South Africa", code: "RSA", flag: "🇿🇦", group: "Group A", coach: "Hugo Broos", keyPlayer: "Teboho Mokoena", fifaRank: 59, color: "#10b981", basePrice: 0.005 },
+  { name: "South Korea", code: "KOR", flag: "🇰🇷", group: "Group A", coach: "Hong Myung-bo", keyPlayer: "Son Heung-min", fifaRank: 22, color: "#ef4444", basePrice: 0.012, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.5 }, { stage: "Matchday 1", prob: 0.5 }, { stage: "Matchday 3", prob: 0.8 }, { stage: "Round of 16", prob: 0.0 }] },
+  { name: "Czechia", code: "CZE", flag: "🇨🇿", group: "Group A", coach: "Ivan Hašek", keyPlayer: "Tomáš Souček", fifaRank: 35, color: "#1d4ed8", basePrice: 0.008 },
+
+  // Group B
+  { name: "Canada", code: "CAN", flag: "🇨🇦", group: "Group B", coach: "Jesse Marsch", keyPlayer: "Alphonso Davies", fifaRank: 33, color: "#dc2626", basePrice: 0.015, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.5 }, { stage: "Matchday 1", prob: 0.0 }] },
+  { name: "Switzerland", code: "SUI", flag: "🇨🇭", group: "Group B", coach: "Murat Yakin", keyPlayer: "Granit Xhaka", fifaRank: 19, color: "#e11d48", basePrice: 0.018, qatarTrend: [{ stage: "Pre-Tourney", prob: 1.0 }, { stage: "Matchday 1", prob: 1.2 }, { stage: "Matchday 3", prob: 1.5 }, { stage: "Round of 16", prob: 0.0 }] },
+  { name: "Mali", code: "MLI", flag: "🇲🇱", group: "Group B", coach: "Tom Saintfiet", keyPlayer: "Yves Bissouma", fifaRank: 54, color: "#eab308", basePrice: 0.004 },
+  { name: "Honduras", code: "HON", flag: "🇭🇳", group: "Group B", coach: "Reinaldo Rueda", keyPlayer: "Luis Palma", fifaRank: 77, color: "#0284c7", basePrice: 0.002 },
+
+  // Group C
+  { name: "Brazil", code: "BRA", flag: "🇧🇷", group: "Group C", coach: "Dorival Júnior", keyPlayer: "Vinícius Júnior", fifaRank: 5, color: "#eab308", basePrice: 0.160, qatarTrend: [{ stage: "Pre-Tourney", prob: 18.0 }, { stage: "Matchday 1", prob: 18.5 }, { stage: "Matchday 3", prob: 19.5 }, { stage: "Round of 16", prob: 22.0 }, { stage: "Quarter-Finals", prob: 0.0 }], strategyTip: "Brazil's outright probability remains highly stable. The Seleção YES token represents a low-volatility anchor position." },
+  { name: "Morocco", code: "MAR", flag: "🇲🇦", group: "Group C", coach: "Walid Regragui", keyPlayer: "Achraf Hakimi", fifaRank: 13, color: "#10b981", basePrice: 0.035, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.5 }, { stage: "Matchday 1", prob: 0.8 }, { stage: "Matchday 3", prob: 2.2 }, { stage: "Round of 16", prob: 5.5 }, { stage: "Quarter-Finals", prob: 12.0 }, { stage: "Semi-Finals", prob: 15.0 }, { stage: "The Final", prob: 0.0 }], strategyTip: "The legendary black swan of Qatar. Active group backing makes Morocco outright tokens excellent high-yield speculative assets." },
+  { name: "Scotland", code: "SCO", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", group: "Group C", coach: "Steve Clarke", keyPlayer: "Scott McTominay", fifaRank: 52, color: "#1d4ed8", basePrice: 0.005 },
+  { name: "Haiti", code: "HAI", flag: "🇭🇹", group: "Group C", coach: "Sébastien Migné", keyPlayer: "Duckens Nazon", fifaRank: 86, color: "#3b82f6", basePrice: 0.001 },
+
+  // Group D
+  { name: "USA", code: "USA", flag: "🇺🇸", group: "Group D", coach: "Mauricio Pochettino", keyPlayer: "Christian Pulisic", fifaRank: 18, color: "#1e3a8a", basePrice: 0.025, qatarTrend: [{ stage: "Pre-Tourney", prob: 1.0 }, { stage: "Matchday 1", prob: 1.0 }, { stage: "Matchday 3", prob: 1.5 }, { stage: "Round of 16", prob: 0.0 }], strategyTip: "Hosts of 2026 with Pochettino leading. Speculators are actively accumulating USA outright contracts for home-field advantage spikes." },
+  { name: "Turkey", code: "TUR", flag: "🇹🇷", group: "Group D", coach: "Vincenzo Montella", keyPlayer: "Arda Güler", fifaRank: 26, color: "#dc2626", basePrice: 0.014 },
+  { name: "Paraguay", code: "PAR", flag: "🇵🇾", group: "Group D", coach: "Gustavo Alfaro", keyPlayer: "Julio Enciso", fifaRank: 55, color: "#ef4444", basePrice: 0.006 },
+  { name: "Australia", code: "AUS", flag: "🇦🇺", group: "Group D", coach: "Tony Popovic", keyPlayer: "Jackson Irvine", fifaRank: 24, color: "#eab308", basePrice: 0.008, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.2 }, { stage: "Matchday 1", prob: 0.2 }, { stage: "Matchday 3", prob: 1.0 }, { stage: "Round of 16", prob: 0.0 }] },
+
+  // Group E
+  { name: "Germany", code: "GER", flag: "🇩🇪", group: "Group E", coach: "Julian Nagelsmann", keyPlayer: "Jamal Musiala", fifaRank: 11, color: "#475569", basePrice: 0.075, qatarTrend: [{ stage: "Pre-Tourney", prob: 8.5 }, { stage: "Matchday 1", prob: 5.0 }, { stage: "Matchday 3", prob: 0.0 }], strategyTip: "Germany looks to redeem the early group stage exit in Qatar. Undervalued outright target for high-risk trading." },
+  { name: "Ecuador", code: "ECU", flag: "🇪🇨", group: "Group E", coach: "Sebastián Beccacece", keyPlayer: "Piero Hincapié", fifaRank: 27, color: "#eab308", basePrice: 0.015, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.8 }, { stage: "Matchday 1", prob: 1.2 }, { stage: "Matchday 3", prob: 0.0 }] },
+  { name: "Côte d'Ivoire", code: "CIV", flag: "🇨🇮", group: "Group E", coach: "Emerse Faé", keyPlayer: "Simon Adingra", fifaRank: 40, color: "#f97316", basePrice: 0.010 },
+  { name: "Curaçao", code: "CUW", flag: "🇨🇼", group: "Group E", coach: "Dick Advocaat", keyPlayer: "Juninho Bacuna", fifaRank: 90, color: "#2563eb", basePrice: 0.001 },
+
+  // Group F
+  { name: "Netherlands", code: "NED", flag: "🇳🇱", group: "Group F", coach: "Ronald Koeman", keyPlayer: "Virgil van Dijk", fifaRank: 7, color: "#f97316", basePrice: 0.042, qatarTrend: [{ stage: "Pre-Tourney", prob: 6.5 }, { stage: "Matchday 1", prob: 7.0 }, { stage: "Matchday 3", prob: 8.5 }, { stage: "Round of 16", prob: 11.5 }, { stage: "Quarter-Finals", prob: 14.0 }, { stage: "Semi-Finals", prob: 0.0 }], strategyTip: "Highly resilient squad with proven knockout bracket history. YES shares are an excellent mid-tier speculative hold." },
+  { name: "Japan", code: "JPN", flag: "🇯🇵", group: "Group F", coach: "Hajime Moriyasu", keyPlayer: "Kaoru Mitoma", fifaRank: 16, color: "#1e3a8a", basePrice: 0.022, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.8 }, { stage: "Matchday 1", prob: 2.2 }, { stage: "Matchday 3", prob: 2.5 }, { stage: "Round of 16", prob: 0.0 }], strategyTip: "Tactically elite team with strong team cohesion. Japan YES shares represent a highly undervalued, high-upside option." },
+  { name: "Sweden", code: "SWE", flag: "🇸🇪", group: "Group F", coach: "Jon Dahl Tomasson", keyPlayer: "Viktor Gyökeres", fifaRank: 28, color: "#eab308", basePrice: 0.014 },
+  { name: "Tunisia", code: "TUN", flag: "🇹🇳", group: "Group F", coach: "Faouzi Benzarti", keyPlayer: "Elyes Skhiri", fifaRank: 41, color: "#dc2626", basePrice: 0.004, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.2 }, { stage: "Matchday 1", prob: 0.2 }, { stage: "Matchday 3", prob: 0.0 }] },
+
+  // Group G
+  { name: "Belgium", code: "BEL", flag: "🇧🇪", group: "Group G", coach: "Domenico Tedesco", keyPlayer: "Kevin De Bruyne", fifaRank: 6, color: "#be123c", basePrice: 0.038, qatarTrend: [{ stage: "Pre-Tourney", prob: 6.8 }, { stage: "Matchday 1", prob: 7.0 }, { stage: "Matchday 3", prob: 0.0 }], strategyTip: "Post-Golden Generation rebuilding phase. The market remains bearish, leading to heavily discounted outright pricing." },
+  { name: "Egypt", code: "EGY", flag: "🇪🇬", group: "Group G", coach: "Hossam Hassan", keyPlayer: "Mohamed Salah", fifaRank: 31, color: "#dc2626", basePrice: 0.018 },
+  { name: "Iran", code: "IRN", flag: "🇮🇷", group: "Group G", coach: "Amir Ghalenoei", keyPlayer: "Mehdi Taremi", fifaRank: 20, color: "#10b981", basePrice: 0.008, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.2 }, { stage: "Matchday 1", prob: 0.0 }] },
+  { name: "New Zealand", code: "NZL", flag: "🇳🇿", group: "Group G", coach: "Darren Bazeley", keyPlayer: "Chris Wood", fifaRank: 95, color: "#374151", basePrice: 0.001 },
+
+  // Group H
+  { name: "Spain", code: "ESP", flag: "🇪🇸", group: "Group H", coach: "Luis de la Fuente", keyPlayer: "Lamine Yamal", fifaRank: 3, color: "#ef4444", basePrice: 0.138, qatarTrend: [{ stage: "Pre-Tourney", prob: 8.5 }, { stage: "Matchday 1", prob: 11.0 }, { stage: "Matchday 3", prob: 9.0 }, { stage: "Round of 16", prob: 0.0 }], strategyTip: "Extreme technical momentum spotted. Backing from domestic retail traders has pushed Spain YES contract up +15% this week." },
+  { name: "Uruguay", code: "URU", flag: "🇺🇾", group: "Group H", coach: "Marcelo Bielsa", keyPlayer: "Federico Valverde", fifaRank: 14, color: "#38bdf8", basePrice: 0.028, qatarTrend: [{ stage: "Pre-Tourney", prob: 2.0 }, { stage: "Matchday 1", prob: 1.5 }, { stage: "Matchday 3", prob: 0.0 }] },
+  { name: "Cap-Vert", code: "CPV", flag: "🇨🇻", group: "Group H", coach: "Bubista", keyPlayer: "Ryan Mendes", fifaRank: 65, color: "#1d4ed8", basePrice: 0.003 },
+  { name: "Saudi Arabia", code: "KSA", flag: "🇸🇦", group: "Group H", coach: "Roberto Mancini", keyPlayer: "Salem Al-Dawsari", fifaRank: 56, color: "#047857", basePrice: 0.005, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.1 }, { stage: "Matchday 1", prob: 0.8 }, { stage: "Matchday 3", prob: 0.0 }] },
+
+  // Group I
+  { name: "France", code: "FRA", flag: "🇫🇷", group: "Group I", coach: "Didier Deschamps", keyPlayer: "Kylian Mbappé", fifaRank: 2, color: "#3b82f6", basePrice: 0.185, qatarTrend: [{ stage: "Pre-Tourney", prob: 12.0 }, { stage: "Matchday 1", prob: 13.5 }, { stage: "Matchday 3", prob: 14.0 }, { stage: "Round of 16", prob: 16.5 }, { stage: "Quarter-Finals", prob: 25.0 }, { stage: "Semi-Finals", prob: 42.0 }, { stage: "Finals", prob: 0.0 }], strategyTip: "French outright contract values are heavily backed by institutional traders. Recommending ACCUMULATION on minor price dips." },
+  { name: "Senegal", code: "SEN", flag: "🇸🇳", group: "Group I", coach: "Aliou Cissé", keyPlayer: "Sadio Mané", fifaRank: 21, color: "#15803d", basePrice: 0.015, qatarTrend: [{ stage: "Pre-Tourney", prob: 1.0 }, { stage: "Matchday 1", prob: 0.8 }, { stage: "Matchday 3", prob: 1.8 }, { stage: "Round of 16", prob: 0.0 }] },
+  { name: "Iraq", code: "IRQ", flag: "🇮🇶", group: "Group I", coach: "Jesús Casas", keyPlayer: "Aymen Hussein", fifaRank: 55, color: "#065f46", basePrice: 0.003 },
+  { name: "Norway", code: "NOR", flag: "🇳🇴", group: "Group I", coach: "Ståle Solbakken", keyPlayer: "Erling Haaland", fifaRank: 47, color: "#b91c1c", basePrice: 0.020 },
+
+  // Group J
+  { name: "Argentina", code: "ARG", flag: "🇦🇷", group: "Group J", coach: "Lionel Scaloni", keyPlayer: "Lionel Messi", fifaRank: 1, color: "#06b6d4", basePrice: 0.092, qatarTrend: [{ stage: "Pre-Tourney", prob: 14.5 }, { stage: "Matchday 1", prob: 6.5 }, { stage: "Matchday 3", prob: 11.0 }, { stage: "Round of 16", prob: 13.5 }, { stage: "Quarter-Finals", prob: 22.0 }, { stage: "Semi-Finals", prob: 45.0 }, { stage: "Finals", prob: 100.0 }], strategyTip: "Riding high on the legendary Qatar payout. The current valuation has a 'Messiah Premium' factored in, but solid defending makes them strong." },
+  { name: "Austria", code: "AUT", flag: "🇦🇹", group: "Group J", coach: "Ralf Rangnick", keyPlayer: "Marcel Sabitzer", fifaRank: 23, color: "#e11d48", basePrice: 0.014 },
+  { name: "Algeria", code: "ALG", flag: "🇩🇿", group: "Group J", coach: "Vladimir Petković", keyPlayer: "Riyad Mahrez", fifaRank: 37, color: "#047857", basePrice: 0.010 },
+  { name: "Jordan", code: "JOR", flag: "🇯🇴", group: "Group J", coach: "Jamal Sellami", keyPlayer: "Musa Al-Taamari", fifaRank: 64, color: "#b91c1c", basePrice: 0.002 },
+
+  // Group K
+  { name: "Portugal", code: "POR", flag: "🇵🇹", group: "Group K", coach: "Roberto Martínez", keyPlayer: "Cristiano Ronaldo", fifaRank: 6, color: "#10b981", basePrice: 0.058, qatarTrend: [{ stage: "Pre-Tourney", prob: 7.0 }, { stage: "Matchday 1", prob: 7.5 }, { stage: "Matchday 3", prob: 8.2 }, { stage: "Round of 16", prob: 10.0 }, { stage: "Quarter-Finals", prob: 0.0 }], strategyTip: "Portugal's younger roster offers massive high-yield explosive upside. YES contract pays out 17x implied return." },
+  { name: "Colombia", code: "COL", flag: "🇨🇴", group: "Group K", coach: "Néstor Lorenzo", keyPlayer: "Luis Díaz", fifaRank: 9, color: "#eab308", basePrice: 0.030 },
+  { name: "DR Congo", code: "COD", flag: "🇨🇩", group: "Group K", coach: "Sébastien Desabre", keyPlayer: "Chancel Mbemba", fifaRank: 57, color: "#3b82f6", basePrice: 0.003 },
+  { name: "Uzbekistan", code: "UZB", flag: "🇺🇿", group: "Group K", coach: "Srečko Katanec", keyPlayer: "Eldor Shomurodov", fifaRank: 60, color: "#0ea5e9", basePrice: 0.002 },
+
+  // Group L
+  { name: "England", code: "ENG", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "Group L", coach: "Thomas Tuchel", keyPlayer: "Jude Bellingham", fifaRank: 4, color: "#94a3b8", basePrice: 0.115, qatarTrend: [{ stage: "Pre-Tourney", prob: 9.0 }, { stage: "Matchday 1", prob: 10.5 }, { stage: "Matchday 3", prob: 11.5 }, { stage: "Round of 16", prob: 12.5 }, { stage: "Quarter-Finals", prob: 0.0 }], strategyTip: "Thomas Tuchel's tactical structural adjustments are bullish. Best suited for hedging positions against France in early knockout rounds." },
+  { name: "Croatia", code: "CRO", flag: "🇭🇷", group: "Group L", coach: "Zlatko Dalić", keyPlayer: "Luka Modrić", fifaRank: 10, color: "#b91c1c", basePrice: 0.024, qatarTrend: [{ stage: "Pre-Tourney", prob: 2.5 }, { stage: "Matchday 1", prob: 2.4 }, { stage: "Matchday 3", prob: 4.5 }, { stage: "Round of 16", prob: 6.0 }, { stage: "Quarter-Finals", prob: 10.5 }, { stage: "Semi-Finals", prob: 0.0 }], strategyTip: "Renowned tournament bracket giants. Luka Modrić's final tournament ensures steady leadership and resilient pricing." },
+  { name: "Ghana", code: "GHA", flag: "🇬🇭", group: "Group L", coach: "Otto Addo", keyPlayer: "Mohammed Kudus", fifaRank: 64, color: "#eab308", basePrice: 0.005, qatarTrend: [{ stage: "Pre-Tourney", prob: 0.2 }, { stage: "Matchday 1", prob: 0.0 }] },
+  { name: "Panama", code: "PAN", flag: "🇵🇦", group: "Group L", coach: "Thomas Christiansen", keyPlayer: "Adalberto Carrasquilla", fifaRank: 39, color: "#1e3a8a", basePrice: 0.003 }
+];
+
+const EXTENDED_TEAMS_DB = {};
+ALL_48_TEAMS.forEach(team => {
+  const base = team.basePrice;
+  const currentTrend = team.currentTrend || [
+    { day: 'May 4', price: base * 0.95 },
+    { day: 'May 6', price: base * 0.98 },
+    { day: 'May 8', price: base * 1.0 },
+    { day: 'May 10', price: base * 1.02 },
+    { day: 'May 12', price: base }
+  ];
+
+  const qatarTrend = team.qatarTrend || [
+    { stage: "Pre-Tourney", prob: 0.0 }
+  ];
+
+  const strategyTip = team.strategyTip || `Competing in ${team.group}. Representing a strategic option in outcomes pools with key player ${team.keyPlayer} under manager ${team.coach}.`;
+
+  EXTENDED_TEAMS_DB[team.code] = {
+    ...team,
+    currentTrend,
+    qatarTrend,
+    strategyTip
+  };
+});
 
 export default function TeamsExplorer() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -197,7 +142,7 @@ export default function TeamsExplorer() {
     return matchesSearch && matchesGroup;
   });
 
-  const GROUPS_LIST = ['ALL', 'Group A', 'Group C', 'Group D', 'Group E', 'Group F', 'Group G', 'Group H', 'Group I', 'Group J', 'Group K', 'Group L'];
+  const GROUPS_LIST = ['ALL', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 'Group G', 'Group H', 'Group I', 'Group J', 'Group K', 'Group L'];
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
