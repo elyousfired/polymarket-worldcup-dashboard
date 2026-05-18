@@ -1,0 +1,345 @@
+/* Design System & Global Stylesheet for Polymarket World Cup Pulse Terminal */
+
+:root {
+  /* Color Palette - Premium Space-Grade Dark Theme */
+  --bg-main: #060813;
+  --bg-card: rgba(13, 20, 38, 0.45);
+  --bg-sidebar: rgba(8, 12, 26, 0.7);
+  --bg-header: rgba(6, 8, 19, 0.8);
+  
+  /* Primary Sports Colors */
+  --color-primary: #10b981; /* Emerald/Football pitch green */
+  --color-primary-glow: rgba(16, 185, 129, 0.15);
+  --color-secondary: #06b6d4; /* Neon cyan */
+  --color-secondary-glow: rgba(6, 182, 212, 0.15);
+  --color-accent: #f59e0b; /* Golden Trophy gold */
+  
+  /* System States */
+  --color-success: #10b981;
+  --color-danger: #f43f5e; /* Rose-red */
+  --color-warning: #eab308;
+  --color-info: #3b82f6;
+  
+  /* Text states */
+  --text-primary: #f8fafc;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  
+  /* Borders & Blurs */
+  --border-glass: rgba(255, 255, 255, 0.05);
+  --border-glass-hover: rgba(255, 255, 255, 0.12);
+  --border-neon-emerald: rgba(16, 185, 129, 0.3);
+  --border-neon-cyan: rgba(6, 182, 212, 0.3);
+  
+  --blur-glass: 16px;
+  --shadow-premium: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --shadow-neon-emerald: 0 0 20px rgba(16, 185, 129, 0.2);
+  --shadow-neon-cyan: 0 0 20px rgba(6, 182, 212, 0.2);
+  
+  --transition-fast: 0.15s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Premium Glassmorphism Cards */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-premium);
+  transition: border var(--transition-smooth), transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.glass-panel-hover:hover {
+  border-color: var(--border-glass-hover);
+  transform: translateY(-2px);
+}
+
+.glass-panel-emerald {
+  border: 1px solid var(--border-neon-emerald);
+  box-shadow: var(--shadow-premium), var(--color-primary-glow) 0px 4px 20px;
+}
+
+.glass-panel-cyan {
+  border: 1px solid var(--border-neon-cyan);
+  box-shadow: var(--shadow-premium), var(--color-secondary-glow) 0px 4px 20px;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(8, 12, 26, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+@keyframes signalPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes signalPulseOffline {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(244, 63, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Signal Pulses */
+.pulse-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  display: inline-block;
+  animation: signalPulse 2s infinite;
+}
+
+.pulse-indicator-offline {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  display: inline-block;
+  animation: signalPulseOffline 2s infinite;
+}
+
+/* Custom Sports Dashboard Layout Utilities */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle at 10% 20%, rgba(13, 20, 38, 0.6) 0%, rgba(6, 8, 19, 1) 90%);
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100%;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  z-index: 10;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.header {
+  height: 70px;
+  width: 100%;
+  background: var(--bg-header);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+.workspace {
+  padding: 32px;
+  flex: 1;
+}
+
+/* Typography & Interactive Elements */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.glow-text-emerald {
+  color: var(--color-primary);
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.glow-text-cyan {
+  color: var(--color-secondary);
+  text-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+}
+
+.glow-text-gold {
+  color: var(--color-accent);
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+/* Buttons and Inputs */
+.btn-tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  width: 100%;
+  text-align: left;
+}
+
+.btn-tab:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.02);
+}
+
+.btn-tab.active {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 20px -4px rgba(16, 185, 129, 0.1);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border: none;
+  border-radius: 10px;
+  color: #060813;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: inherit;
+}
+
+.badge-emerald {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-primary);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.badge-rose {
+  background: rgba(244, 63, 94, 0.1);
+  color: var(--color-danger);
+  border: 1px solid rgba(244, 63, 94, 0.15);
+}
+
+.badge-blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+/* Custom Grid Utility */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.grid-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1200px) {
+  .grid-main, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* JetBrains Mono typography for data prints */
+.data-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
