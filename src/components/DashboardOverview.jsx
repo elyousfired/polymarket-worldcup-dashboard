@@ -61,7 +61,7 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
     return updated;
   });
 
-  const isAnyLineHovered = hoveredTeamCode !== null;
+  const isAnyHovered = hoveredTeamCode !== null;
   const activeLines = [...favorites];
   if (hoveredTeamCode && !activeLines.some(t => t.code === hoveredTeamCode)) {
     const hoveredTeam = teams.find(t => t.code === hoveredTeamCode);
@@ -244,7 +244,7 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
                 />
                 {activeLines.map((fav) => {
                   const isCurrentlyHovered = hoveredTeamCode === fav.code;
-                  const opacity = isAnyLineHovered ? (isCurrentlyHovered ? 1 : 0) : 1;
+                  const opacity = isAnyHovered ? (isCurrentlyHovered ? 1 : 0) : 1;
                   
                   return (
                     <Line 
@@ -255,8 +255,8 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
                       stroke={fav.color} 
                       strokeWidth={isCurrentlyHovered ? 4.5 : 2.5}
                       strokeOpacity={opacity}
-                      dot={isCurrentlyHovered || !isAnyLineHovered ? { r: 2.5, strokeWidth: 1.5, fill: fav.color } : false}
-                      activeDot={isCurrentlyHovered || !isAnyLineHovered ? { r: 6 } : false}
+                      dot={isCurrentlyHovered || !isAnyHovered ? { r: 2.5, strokeWidth: 1.5, fill: fav.color } : false}
+                      activeDot={isCurrentlyHovered || !isAnyHovered ? { r: 6 } : false}
                       onMouseEnter={() => setHoveredTeamCode(fav.code)}
                       onMouseLeave={() => setHoveredTeamCode(null)}
                       style={{ transition: 'stroke-opacity 0.25s ease-in-out, stroke-width 0.2s ease' }}
