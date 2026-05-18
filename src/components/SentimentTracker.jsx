@@ -227,7 +227,7 @@ export default function SentimentTracker({ teams, onApplyShifts }) {
               <p style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Comparing original Polymarket outright prices against the simulated sentiment model.</p>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '520px', overflowY: 'auto', paddingRight: '8px' }}>
               {teams.map(t => {
                 const isShifted = t.probability !== t.baseProbability;
                 const shiftAmt = parseFloat((t.probability - t.baseProbability).toFixed(1));

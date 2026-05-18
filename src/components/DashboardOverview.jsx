@@ -129,7 +129,7 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
             )}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '560px', overflowY: 'auto', paddingRight: '8px' }}>
             {teams.map((t) => (
               <div key={t.code} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px' }}>
