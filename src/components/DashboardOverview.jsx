@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   LineChart, 
   Line, 
@@ -32,24 +32,43 @@ const MOCK_HISTORICAL_DATA = [
 ];
 
 export default function DashboardOverview({ teams, fetching, newsEvents }) {
+  const [hoveredTeamCode, setHoveredTeamCode] = useState(null);
+
   // Take top 4 favorites for our line chart
   const favorites = teams.slice(0, 4);
 
-  // Dynamic price data mapping for Recharts
+  // Dynamic price data mapping for Recharts, supporting all 48 teams
   const chartData = MOCK_HISTORICAL_DATA.map(d => {
-    // If there is active live data, we slightly blend the last day's data with the current state
-    if (d.day === 'May 12') {
-      const updated = { ...d };
-      teams.forEach(t => {
-        if (t.code === 'FRA') updated.FRA = t.probability;
-        if (t.code === 'BRA') updated.BRA = t.probability;
-        if (t.code === 'ESP') updated.ESP = t.probability;
-        if (t.code === 'ENG') updated.ENG = t.probability;
-      });
-      return updated;
-    }
-    return d;
+    const dayIndex = MOCK_HISTORICAL_DATA.indexOf(d);
+    const updated = { day: d.day };
+    
+    teams.forEach(t => {
+      if (t.code === 'FRA') {
+        updated.FRA = d.day === 'May 12' ? t.probability : d.FRA;
+      } else if (t.code === 'BRA') {
+        updated.BRA = d.day === 'May 12' ? t.probability : d.BRA;
+      } else if (t.code === 'ESP') {
+        updated.ESP = d.day === 'May 12' ? t.probability : d.ESP;
+      } else if (t.code === 'ENG') {
+        updated.ENG = d.day === 'May 12' ? t.probability : d.ENG;
+      } else {
+        // Generate daily dynamic points for any of the other 44 teams cleanly
+        const base = t.probability;
+        const trendFactors = [0.92, 0.95, 0.93, 0.97, 0.99, 0.96, 1.01, 0.98, 1.0];
+        updated[t.code] = parseFloat((base * trendFactors[dayIndex]).toFixed(2));
+      }
+    });
+    return updated;
   });
+
+  const isAnyLineHovered = hoveredTeamCode !== null;
+  const activeLines = [...favorites];
+  if (hoveredTeamCode && !activeLines.some(t => t.code === hoveredTeamCode)) {
+    const hoveredTeam = teams.find(t => t.code === hoveredTeamCode);
+    if (hoveredTeam) {
+      activeLines.push(hoveredTeam);
+    }
+  }
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -131,7 +150,23 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '560px', overflowY: 'auto', paddingRight: '8px' }}>
             {teams.map((t) => (
-              <div key={t.code} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div 
+                key={t.code} 
+                onMouseEnter={() => setHoveredTeamCode(t.code)}
+                onMouseLeave={() => setHoveredTeamCode(null)}
+                style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '6px', 
+                  cursor: 'pointer',
+                  padding: '6px 8px',
+                  borderRadius: '10px',
+                  margin: '0 -4px',
+                  background: hoveredTeamCode === t.code ? 'rgba(255, 255, 255, 0.02)' : 'transparent',
+                  border: `1px solid ${hoveredTeamCode === t.code ? 'rgba(255, 255, 255, 0.05)' : 'transparent'}`,
+                  transition: '0.15s'
+                }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span className="data-mono" style={{ color: '#64748b', fontWeight: '700', width: '20px' }}>#{t.rank}</span>
@@ -207,24 +242,60 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
                     color: '#f8fafc'
                   }}
                 />
-                <Legend 
-                  wrapperStyle={{ fontSize: '11px', fontFamily: 'Outfit', paddingTop: '10px' }}
-                  iconType="circle"
-                />
-                {favorites.map((fav) => (
-                  <Line 
-                    key={fav.code}
-                    type="monotone" 
-                    dataKey={fav.code} 
-                    name={fav.name}
-                    stroke={fav.color} 
-                    strokeWidth={3}
-                    dot={{ r: 2, strokeWidth: 1 }}
-                    activeDot={{ r: 5 }}
-                  />
-                ))}
+                {activeLines.map((fav) => {
+                  const isCurrentlyHovered = hoveredTeamCode === fav.code;
+                  const opacity = isAnyLineHovered ? (isCurrentlyHovered ? 1 : 0) : 1;
+                  
+                  return (
+                    <Line 
+                      key={fav.code}
+                      type="monotone" 
+                      dataKey={fav.code} 
+                      name={fav.name}
+                      stroke={fav.color} 
+                      strokeWidth={isCurrentlyHovered ? 4.5 : 2.5}
+                      strokeOpacity={opacity}
+                      dot={isCurrentlyHovered || !isAnyLineHovered ? { r: 2.5, strokeWidth: 1.5, fill: fav.color } : false}
+                      activeDot={isCurrentlyHovered || !isAnyLineHovered ? { r: 6 } : false}
+                      onMouseEnter={() => setHoveredTeamCode(fav.code)}
+                      onMouseLeave={() => setHoveredTeamCode(null)}
+                      style={{ transition: 'stroke-opacity 0.25s ease-in-out, stroke-width 0.2s ease' }}
+                    />
+                  );
+                })}
               </LineChart>
             </ResponsiveContainer>
+          </div>
+
+          {/* Custom Interactive Legend */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', marginTop: '6px' }}>
+            {activeLines.map((fav) => {
+              const isHovered = hoveredTeamCode === fav.code;
+              return (
+                <div 
+                  key={fav.code}
+                  onMouseEnter={() => setHoveredTeamCode(fav.code)}
+                  onMouseLeave={() => setHoveredTeamCode(null)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    opacity: isAnyHovered ? (isHovered ? 1 : 0.25) : 1,
+                    transition: '0.2s',
+                    padding: '6px 12px',
+                    borderRadius: '8px',
+                    background: isHovered ? 'rgba(255,255,255,0.02)' : 'transparent',
+                    border: `1px solid ${isHovered ? 'rgba(255,255,255,0.05)' : 'transparent'}`
+                  }}
+                >
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: fav.color, boxShadow: `0 0 8px ${fav.color}` }}></div>
+                  <span style={{ fontSize: '12px', fontWeight: '600', color: isHovered ? '#f8fafc' : '#94a3b8' }}>
+                    {fav.name}
+                  </span>
+                </div>
+              );
+            })}
           </div>
 
           <div className="glass-panel" style={{ padding: '14px', borderRadius: '10px', display: 'flex', flexDirection: 'column', gap: '6px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.02)' }}>
