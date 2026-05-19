@@ -10,7 +10,8 @@ import {
   RefreshCw,
   Coins,
   History,
-  Users
+  Users,
+  AreaChart
 } from 'lucide-react';
 import DashboardOverview from './components/DashboardOverview';
 import SentimentTracker from './components/SentimentTracker';
@@ -18,6 +19,7 @@ import PropMarkets from './components/PropMarkets';
 import OrderBookScanner from './components/OrderBookScanner';
 import QatarHistory from './components/QatarHistory';
 import TeamsExplorer from './components/TeamsExplorer';
+import ProbabilityAnalytics from './components/ProbabilityAnalytics';
 
 // Default World Cup Teams with standard initial prediction shares
 const INITIAL_TEAMS = [
@@ -219,6 +221,14 @@ export default function App() {
             <Compass size={18} />
             <span>Dashboard Overview</span>
           </button>
+
+          <button 
+            className={`btn-tab ${activeTab === 'analytics' ? 'active' : ''}`}
+            onClick={() => setActiveTab('analytics')}
+          >
+            <AreaChart size={18} />
+            <span>Trend Terminal</span>
+          </button>
           
           <button 
             className={`btn-tab ${activeTab === 'simulator' ? 'active' : ''}`}
@@ -318,6 +328,9 @@ export default function App() {
               fetching={fetching} 
               newsEvents={newsEvents}
             />
+          )}
+          {activeTab === 'analytics' && (
+            <ProbabilityAnalytics teams={teams} />
           )}
           {activeTab === 'simulator' && (
             <SentimentTracker 
