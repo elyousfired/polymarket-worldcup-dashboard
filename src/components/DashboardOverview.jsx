@@ -132,8 +132,8 @@ export default function DashboardOverview({ teams, fetching, newsEvents }) {
         </div>
       </section>
 
-      {/* Main Grid: Outright Winner Leaderboard + Probability Evolution Chart */}
-      <div className="grid-main">
+      {/* Main Stack: Outright Winner Leaderboard + Probability Evolution Chart */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {/* Outright Leaderboard */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
